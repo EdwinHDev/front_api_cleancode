@@ -1,4 +1,5 @@
 import axios from "axios"
+import cookies from 'js-cookie'
 
 const url = process.env.NEXT_PUBLIC_API_URL
 
@@ -18,9 +19,9 @@ export const privateApi = axios.create({
 
 privateApi.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token")
+    const token = cookies.get('token')
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+      config.headers.authorization = `Bearer ${token}`
     }
     return config
   },

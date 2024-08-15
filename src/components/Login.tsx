@@ -11,6 +11,7 @@ import { FlipWords } from "./ui/flip-words"
 import Auth from "@/services/auth"
 import { toast } from "sonner"
 import Link from "next/link"
+import cookies from "js-cookie"
 
 export function Login() {
 
@@ -53,12 +54,17 @@ export function Login() {
     try {
       const res: LoginResponse = await Auth.signIn( email, password )
       const token = res.token
-      localStorage.setItem( "token", token )
+      // save token in cookie
+      cookies.set( "token", token )
       // redirect to dashboard
-      // router.push( "/dashboard" )
+      router.push( "/dashboard" )
     } catch ( error: any ) {
       setLoading( false )
-      toast.error( error.response.data.errors[0].msg )
+      if(error.response.data.errors) {
+        toast.error( error.response.data.errors[0].msg )
+      } else {
+        toast.error( error.response.data.message )
+      }
     }
   }
 

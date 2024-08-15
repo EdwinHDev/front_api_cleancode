@@ -7,7 +7,6 @@ class Auth {
       const { data } = await publicApi.post('/auth/login', { email, password })
       return data
     } catch (error) {
-      console.log("error")
       throw error
     }
   }
